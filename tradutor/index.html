@@ -1,0 +1,65 @@
+<!DOCTYPE html> <!-- ESTAMOS USANDO A VERSAO MAIS NOVA DO HTML -->
+
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>TRADUTOR </title>
+    
+</head>
+
+<body>
+    <div class="cabecalho">
+        <h1>Ligoo <img src="img/traduzir.svg" alt="Logo do Ligoo"></h1>
+
+    </div>
+    <div class="caixa-maior">
+
+        <textarea class="input-texto"></textarea>
+
+        <div class="controle">
+            
+            <select class="idioma">
+                <option value="en">Inglês</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Francês</option>
+                <option value="de">Alemão</option>
+                <option value="it">Italiano</option>
+                <option value="ja">Japonês</option>
+            </select>
+
+            <button onclick="traduzir()">
+                <img src="img/traduzir.svg">
+            </button>
+
+            <button onclick="ouvirVoz()">
+                <img src="img/microfone.svg">
+            </button>
+
+        </div>
+
+        <div class="resultado">
+            <h3 class="titulo-traducao">Tradução</h3>
+            <p class="traducao">A Tradução aparecerá aqui...</p>
+        </div>
+
+
+    </div>
+</body>
+
+<footer class="rodape">
+    <p>© 2026 Meu Site - Todos os direitos reservados</p>
+</footer>
+
+
+<script src="scripts.js">
+
+</script>
+
+
+
+</html>

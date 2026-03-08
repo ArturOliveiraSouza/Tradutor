@@ -1,0 +1,122 @@
+/* GRANDES PROJETOS E EMPRESAS
+ - COMO COMECAR DO JEITO CERTO
+    CSS - * tudo
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cabecalho{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    box-shadow: #fff 0px 0px 30px;
+    padding: 20px;
+    border-image: none;
+    
+}
+h1{
+    text-shadow: 4px 4px 6px #0303fc;
+}
+body {
+    background-color: #fff;
+    background-image: url("img/idioma.jpg");
+    /* IMAGEM DE FUNDO */
+    background-size: cover;
+    /* TAMANHO DO FUNDO */
+    background-position: center;
+    height: 100vh;
+    /* altura */
+    display: flex;
+    /* mostrar / flexivel */
+    align-items: center;
+    justify-content: center;
+}
+
+.h3 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.caixa-maior {
+    background-color: #000000f2;
+    box-shadow: #fff 0px 0px 30px;
+    width: 450px; /* largura  */
+    border-radius: 25px; /* arredondar a borda */
+    padding: 20px; /* espacamento interno */
+}
+
+.input-texto {
+    margin-top: auto;
+    width: 100%;
+    height: 100px;
+    border: none;  /* borda / none = nada,nenhuma */
+    outline: none; /* borda quando eu clico nele*/
+    background-color: #ffffff1a;
+    border-radius: 15px;
+    color: #ffffff;/* cor do texto*/
+    font-size: 16px; /* tamanho da fonte */
+    padding: 15px;
+}
+
+.idioma {
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    padding: 10px;
+    background-color: #ffffff1a;
+    color: #0303fc;
+}
+
+button {
+    border: none;
+    padding: 10px;
+    background-color: #0303fc;
+    border-radius: 2dvb;
+    cursor: pointer; /* coloca a maosinha */
+}
+
+.controle {
+    display: flex;
+    align-items: center;
+    gap: 10px;  /* espacamento */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.resultado {
+    padding: 15px;
+    background-color: #000000f0;
+    border-radius: 15px;
+}
+
+.titulo-traducao {
+    color: #ffffff99;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.traducao {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.rodape{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    box-shadow: #fff 0px 0px 30px;
+    padding: 20px;
+    text-align: center;
+}
