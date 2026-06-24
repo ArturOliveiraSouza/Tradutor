@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Cadastro - Ligoo</title>
+</head>
+
+<body>
+    <div class="cabecalho">
+        <h1>Ligoo <img src="img/traduzir.svg" alt="Logo do Ligoo"></h1>
+    </div>
+
+    <main class="login">
+        <div class="login-card">
+            <h2>Criar conta</h2>
+            <p class="login-texto">Cadastre seu email e senha para acessar o tradutor.</p>
+
+            <form class="form-login" data-tipo="cadastro">
+                <label for="email">Email</label>
+                <input id="email" class="campo-login" type="email" placeholder="seu@email.com" required>
+
+                <label for="senha">Senha</label>
+                <input id="senha" class="campo-login" type="password" placeholder="Crie uma senha" minlength="4" required>
+
+                <label for="confirmar-senha">Confirmar senha</label>
+                <input id="confirmar-senha" class="campo-login" type="password" placeholder="Repita sua senha" minlength="4" required>
+
+                <p class="mensagem-login"></p>
+
+                <button class="botao-login" type="submit">Cadastrar</button>
+            </form>
+
+            <a class="link-cadastro" href="login.html">Ja tenho conta</a>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <p>&copy; 2026 Meu Site - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
