@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tradutor Ligoo</title>
+</head>
+
+<body>
+    <div class="cabecalho">
+        <h1>Ligoo <img src="img/traduzir.svg" alt="Logo do Ligoo"></h1>
+        <button class="botao-sair escondido" type="button">Sair</button>
+    
+    </div>
+
+    
+
+    <main class="caixa-maior escondido">
+        <textarea class="input-texto" placeholder="Digite o texto em portugues..."></textarea>
+
+        <div class="controle">
+            <select class="idioma">
+                <option value="en">Ingles</option>
+                <option value="es">Espanhol</option>
+                <option value="fr">Frances</option>
+                <option value="de">Alemao</option>
+                <option value="it">Italiano</option>
+                <option value="ja">Japones</option>
+                <option value="ko">Coreano</option>
+                <option value="zh-CN">Chines</option>
+                <option value="ru">Russo</option>
+                <option value="ar">Arabe</option>
+                <option value="hi">Hindi</option>
+                <option value="tr">Turco</option>
+                <option value="nl">Holandes</option>
+                <option value="sv">Sueco</option>
+                <option value="pl">Polones</option>
+                <option value="el">Grego</option>
+                <option value="he">Hebraico</option>
+                <option value="th">Tailandes</option>
+                <option value="vi">Vietnamita</option>
+                <option value="id">Indonesio</option>
+            </select>
+
+            <button type="button" onclick="traduzir()">
+                <img src="img/traduzir.svg" alt="Traduzir">
+            </button>
+
+            <button type="button" onclick="ouvirVoz()">
+                <img src="img/microfone.svg" alt="Falar">
+            </button>
+        </div>
+
+        <div class="resultado">
+            <h3 class="titulo-traducao">Traducao</h3>
+            <p class="traducao">A traducao aparecera aqui...</p>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <p>© 2026 Meu Site - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>

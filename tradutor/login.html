@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Login - Ligoo</title>
+</head>
+
+<body>
+    <div class="cabecalho">
+        <h1>Ligoo <img src="img/traduzir.svg" alt="Logo do Ligoo"></h1>
+    </div>
+
+    <main class="login">
+        <div class="login-card">
+            <h2>Entrar</h2>
+            <p class="login-texto">Acesse sua conta para usar o tradutor.</p>
+
+            <form class="form-login" data-tipo="login">
+                <label for="email">Email</label>
+                <input id="email" class="campo-login" type="email" placeholder="seu@email.com" required>
+
+                <label for="senha">Senha</label>
+                <input id="senha" class="campo-login" type="password" placeholder="Sua senha" minlength="4" required>
+
+                <p class="mensagem-login"></p>
+
+                <button class="botao-login" type="submit">Entrar</button>
+            </form>
+
+            <a class="link-cadastro" href="cadastro.html">Criar conta nova</a>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <p>&copy; 2026 Meu Site - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
