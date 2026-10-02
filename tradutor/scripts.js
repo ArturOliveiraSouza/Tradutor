@@ -11,157 +11,191 @@ padrao =  https://api.mymemory.translated.net/get?q=
 // pegando o texto dentro do text area
 let inputTexto = document.querySelector(".input-texto")
 let traducaoTexto = document.querySelector(".traducao")
-let idioma = document.querySelector(".idioma")
+let idiomaOrigem = document.querySelector("#idioma-origem")
+let idioma = document.querySelector("#idioma")
 let resultado = document.querySelector(".resultado")
-let telaLogin = document.querySelector(".login")
-let caixaTradutor = document.querySelector(".caixa-maior")
-let formularioLogin = document.querySelector(".form-login")
-let campoEmail = document.querySelector("#email")
-let campoSenha = document.querySelector("#senha")
-let campoConfirmarSenha = document.querySelector("#confirmar-senha")
-let mensagemLogin = document.querySelector(".mensagem-login")
-let botaoSair = document.querySelector(".botao-sair")
-let usuarioLogado = localStorage.getItem("usuarioLigooLogado")
-let estaNoLogin = formularioLogin !== null
-let tipoFormulario = formularioLogin ? formularioLogin.dataset.tipo : ""
+let botaoTema = document.querySelector(".botao-tema")
+let botaoTraduzir = document.querySelector(".botao-traduzir")
+let botaoPdf = document.querySelector(".botao-pdf")
+let botaoBaixar = document.querySelector(".botao-baixar")
+let arquivoPdf = document.querySelector("#arquivo-pdf")
+let estadoArquivo = document.querySelector(".estado-arquivo")
+let nomeArquivoBase = "traducao"
+localStorage.removeItem("usuariosLigoo")
+localStorage.removeItem("usuarioLigooLogado")
 
-function pegarUsuarios() {
-    return JSON.parse(localStorage.getItem("usuariosLigoo")) || []
+if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
 }
 
-function salvarUsuarios(usuarios) {
-    localStorage.setItem("usuariosLigoo", JSON.stringify(usuarios))
+function atualizarTema(tema) {
+    let estaNoModoEscuro = tema === "escuro"
+    document.body.dataset.tema = estaNoModoEscuro ? "escuro" : "claro"
+    botaoTema.setAttribute("aria-pressed", String(estaNoModoEscuro))
+    botaoTema.setAttribute("aria-label", estaNoModoEscuro ? "Ativar modo claro" : "Ativar modo escuro")
+    botaoTema.title = estaNoModoEscuro ? "Ativar modo claro" : "Ativar modo escuro"
+    botaoTema.querySelector(".texto-tema").textContent = estaNoModoEscuro ? "Modo claro" : "Modo escuro"
 }
 
-function mostrarMensagemLogin(texto, erro = false) {
-    if (!mensagemLogin) {
+atualizarTema(localStorage.getItem("temaLigoo") || "escuro")
+
+botaoTema.addEventListener("click", () => {
+    let novoTema = document.body.dataset.tema === "escuro" ? "claro" : "escuro"
+    localStorage.setItem("temaLigoo", novoTema)
+    atualizarTema(novoTema)
+})
+
+arquivoPdf.addEventListener("change", carregarPdf)
+botaoPdf.addEventListener("click", baixarPdf)
+botaoBaixar.addEventListener("click", baixarTraducao)
+
+async function carregarPdf(evento) {
+    let arquivo = evento.target.files[0]
+
+    if (!arquivo) {
         return
     }
 
-    mensagemLogin.textContent = texto
-    mensagemLogin.classList.toggle("erro", erro)
-}
+    botaoBaixar.hidden = true
+    estadoArquivo.textContent = "Lendo PDF..."
+    nomeArquivoBase = arquivo.name.replace(/\.pdf$/i, "") || "traducao"
 
-function mostrarTradutor() {
-    if (telaLogin) {
-        telaLogin.classList.add("escondido")
-    }
+    try {
+        if (!window.pdfjsLib) {
+            throw new Error("PDF.js indisponível")
+        }
 
-    if (caixaTradutor) {
-        caixaTradutor.classList.remove("escondido")
-    }
+        let documento = await pdfjsLib.getDocument({ data: await arquivo.arrayBuffer() }).promise
+        let paginas = []
 
-    if (botaoSair) {
-        botaoSair.classList.remove("escondido")
-    }
-}
+        for (let numeroPagina = 1; numeroPagina <= documento.numPages; numeroPagina++) {
+            estadoArquivo.textContent = `Lendo página ${numeroPagina} de ${documento.numPages}...`
+            let pagina = await documento.getPage(numeroPagina)
+            let conteudo = await pagina.getTextContent()
+            let textoPagina = conteudo.items
+                .map((item) => item.str + (item.hasEOL ? "\n" : " "))
+                .join("")
+                .replace(/[ \t]+\n/g, "\n")
+                .replace(/[ \t]{2,}/g, " ")
+                .trim()
 
-function mostrarLogin() {
-    if (telaLogin) {
-        telaLogin.classList.remove("escondido")
-    }
-
-    if (caixaTradutor) {
-        caixaTradutor.classList.add("escondido")
-    }
-
-    if (botaoSair) {
-        botaoSair.classList.add("escondido")
-    }
-}
-
-function entrar(email) {
-    localStorage.setItem("usuarioLigooLogado", email)
-    formularioLogin.reset()
-    window.location.href = "index.html"
-}
-
-if (formularioLogin) {
-    formularioLogin.addEventListener("submit", (evento) => {
-        evento.preventDefault()
-
-        let email = campoEmail.value.trim().toLowerCase()
-        let senha = campoSenha.value.trim()
-        let usuarios = pegarUsuarios()
-        let usuarioEncontrado = usuarios.find((usuario) => usuario.email === email)
-
-        if (tipoFormulario === "cadastro") {
-            if (usuarioEncontrado) {
-                mostrarMensagemLogin("Esse email ja esta cadastrado.", true)
-                return
+            if (textoPagina) {
+                paginas.push(textoPagina)
             }
+        }
 
-            if (campoConfirmarSenha.value.trim() !== senha) {
-                mostrarMensagemLogin("As senhas nao sao iguais.", true)
-                return
-            }
+        let textoExtraido = paginas.join("\n\n")
 
-            usuarios.push({ email, senha })
-            salvarUsuarios(usuarios)
-            entrar(email)
+        if (!textoExtraido) {
+            estadoArquivo.textContent = "Este PDF não tem texto selecionável."
             return
         }
 
-        if (!usuarioEncontrado || usuarioEncontrado.senha !== senha) {
-            mostrarMensagemLogin("Email ou senha incorretos.", true)
-            return
+        inputTexto.value = textoExtraido
+        traducaoTexto.textContent = "Texto do PDF carregado."
+        estadoArquivo.textContent = `${arquivo.name} · ${documento.numPages} página(s)`
+    } catch (erro) {
+        estadoArquivo.textContent = "Não foi possível ler este PDF."
+    }
+}
+
+function dividirTexto(texto, limite = 400) {
+    let trechos = []
+    let inicio = 0
+
+    while (inicio < texto.length) {
+        let fim = Math.min(inicio + limite, texto.length)
+
+        if (fim < texto.length) {
+            let ultimoEspaco = texto.lastIndexOf(" ", fim)
+            let ultimaQuebra = texto.lastIndexOf("\n", fim)
+            let pontoDeCorte = Math.max(ultimoEspaco, ultimaQuebra)
+
+            if (pontoDeCorte > inicio) {
+                fim = pontoDeCorte + 1
+            }
         }
 
-        entrar(email)
-    })
-}
-
-if (botaoSair) {
-    botaoSair.addEventListener("click", () => {
-        localStorage.removeItem("usuarioLigooLogado")
-        window.location.href = "login.html"
-    })
-}
-
-if (usuarioLogado) {
-    if (estaNoLogin) {
-        window.location.href = "index.html"
-    } else {
-        mostrarTradutor()
+        trechos.push(texto.slice(inicio, fim))
+        inicio = fim
     }
-} else {
-    if (estaNoLogin) {
-        mostrarLogin()
-    } else {
-        window.location.href = "login.html"
-    }
+
+    return trechos
 }
 
 async function traduzir() {
-    if (inputTexto.value.trim() === "") {
+    let texto = inputTexto.value.trim()
+
+    if (texto === "") {
         traducaoTexto.textContent = "Digite algo para traduzir."
         return
     }
 
+    let trechos = dividirTexto(texto)
+    let traducoes = []
+    botaoTraduzir.disabled = true
+    botaoPdf.hidden = true
+    botaoBaixar.hidden = true
     resultado.classList.add("carregando")
-    traducaoTexto.textContent = "Traduzindo"
-
-    // endereco do servidor com o texto que eu quero traduzir
-    let endereco = "https://api.mymemory.translated.net/get?q="
-        + encodeURIComponent(inputTexto.value)
-        + "&langpair=pt-BR|"
-        + idioma.value
 
     try {
-        // resposta do servidor
-        let resposta = await fetch(endereco)
+        for (let indice = 0; indice < trechos.length; indice++) {
+            traducaoTexto.textContent = `Traduzindo trecho ${indice + 1} de ${trechos.length}...`
+            let endereco = "https://api.mymemory.translated.net/get?q="
+                + encodeURIComponent(trechos[indice])
+                + "&langpair=" + idiomaOrigem.value + "|"
+                + idioma.value
+            let resposta = await fetch(endereco)
 
-        // converto a resposta para um formato mais amigavel
-        let dados = await resposta.json()
+            if (!resposta.ok) {
+                throw new Error("Falha na tradução")
+            }
 
-        traducaoTexto.textContent = dados.responseData.translatedText
+            let dados = await resposta.json()
+            let traducaoTrecho = dados.responseData?.translatedText
+
+            if (!traducaoTrecho) {
+                throw new Error("A API não retornou a tradução")
+            }
+
+            traducoes.push(traducaoTrecho)
+        }
+
+        traducaoTexto.textContent = traducoes.join("")
+        botaoPdf.hidden = false
+        botaoBaixar.hidden = false
     } catch (erro) {
-        traducaoTexto.textContent = "Nao foi possivel traduzir agora."
+        traducaoTexto.textContent = "Não foi possível traduzir todo o texto. Tente novamente mais tarde."
     } finally {
         resultado.classList.remove("carregando")
+        botaoTraduzir.disabled = false
+    }
+}
+
+function baixarPdf() {
+    if (botaoPdf.hidden) {
+        return
     }
 
-    // textContent = conteudo do texto
+    let tituloOriginal = document.title
+    document.title = `${nomeArquivoBase}-traduzido`
+    window.addEventListener("afterprint", () => {
+        document.title = tituloOriginal
+    }, { once: true })
+    window.print()
+}
+
+function baixarTraducao() {
+    let arquivo = new Blob([traducaoTexto.textContent], { type: "text/plain;charset=utf-8" })
+    let endereco = URL.createObjectURL(arquivo)
+    let link = document.createElement("a")
+
+    link.href = endereco
+    link.download = `${nomeArquivoBase}-traduzido.txt`
+    document.body.append(link)
+    link.click()
+    link.remove()
+    window.setTimeout(() => URL.revokeObjectURL(endereco), 1000)
 }
 
 function ouvirVoz() {
@@ -172,7 +206,31 @@ function ouvirVoz() {
     let reconhecimentoVoz = new voz()
 
     // Configurando a ferramenta
-    reconhecimentoVoz.lang = "pt-BR"
+    let idiomasDeVoz = {
+        "pt-BR": "pt-BR",
+        en: "en-US",
+        es: "es-ES",
+        fr: "fr-FR",
+        de: "de-DE",
+        it: "it-IT",
+        ja: "ja-JP",
+        ko: "ko-KR",
+        "zh-CN": "zh-CN",
+        ru: "ru-RU",
+        ar: "ar-SA",
+        hi: "hi-IN",
+        tr: "tr-TR",
+        nl: "nl-NL",
+        sv: "sv-SE",
+        pl: "pl-PL",
+        el: "el-GR",
+        he: "he-IL",
+        th: "th-TH",
+        vi: "vi-VN",
+        id: "id-ID"
+    }
+
+    reconhecimentoVoz.lang = idiomasDeVoz[idiomaOrigem.value] || idiomaOrigem.value
 
     // Me avise quando ele terminou de transcrever a voz
     reconhecimentoVoz.onresult = (evento) => {
@@ -186,5 +244,3 @@ function ouvirVoz() {
     reconhecimentoVoz.start()
 
 }
-// clicou no botao -> chama a funcao -> monto o enderco ->
-// chamo o servidor -> peco esperar -> responde 

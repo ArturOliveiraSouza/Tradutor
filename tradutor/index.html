@@ -6,57 +6,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <title>Tradutor Ligoo</title>
 </head>
 
 <body>
     <div class="cabecalho">
         <h1>Ligoo <img src="img/traduzir.svg" alt="Logo do Ligoo"></h1>
-        <button class="botao-sair escondido" type="button">Sair</button>
-    
+        <button class="botao-tema" type="button" aria-label="Ativar modo escuro" aria-pressed="false" title="Ativar modo escuro">
+            <svg class="icone-tema icone-lua" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.1 15.2A8.6 8.6 0 0 1 8.8 3.9 8.7 8.7 0 1 0 20.1 15.2Z"></path>
+            </svg>
+            <svg class="icone-tema icone-sol" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
+            </svg>
+            <span class="texto-tema">Modo escuro</span>
+        </button>
     </div>
 
-    
+    <main class="caixa-maior">
+        <header class="apresentacao-tradutor">
+            <p class="etiqueta-pagina">TRADUÇÃO PARA O MUNDO</p>
+            <h2>Converse sem fronteiras.</h2>
+        </header>
 
-    <main class="caixa-maior escondido">
-        <textarea class="input-texto" placeholder="Digite o texto em portugues..."></textarea>
+        <section class="painel-traducao painel-origem">
+            <div class="linha-idioma">
+                <label for="idioma-origem">Idioma de origem</label>
+                <select id="idioma-origem" class="idioma" aria-label="Idioma de origem">
+                    <option value="pt-BR" selected>Português</option>
+                    <option value="en">Inglês</option>
+                    <option value="es">Espanhol</option>
+                    <option value="fr">Francês</option>
+                    <option value="de">Alemão</option>
+                    <option value="it">Italiano</option>
+                    <option value="ja">Japonês</option>
+                    <option value="ko">Coreano</option>
+                    <option value="zh-CN">Chinês</option>
+                    <option value="ru">Russo</option>
+                    <option value="ar">Árabe</option>
+                    <option value="hi">Hindi</option>
+                    <option value="tr">Turco</option>
+                    <option value="nl">Holandês</option>
+                    <option value="sv">Sueco</option>
+                    <option value="pl">Polonês</option>
+                    <option value="el">Grego</option>
+                    <option value="he">Hebraico</option>
+                    <option value="th">Tailandês</option>
+                    <option value="vi">Vietnamita</option>
+                    <option value="id">Indonésio</option>
+                </select>
+            </div>
+            <textarea id="texto-origem" class="input-texto" aria-label="Texto original" placeholder="Digite ou dite o texto..."></textarea>
+            <div class="arquivo-pdf">
+                <label class="botao-arquivo" for="arquivo-pdf">Abrir PDF</label>
+                <input id="arquivo-pdf" class="entrada-arquivo" type="file" accept=".pdf,application/pdf">
+                <p class="estado-arquivo" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <section class="painel-traducao painel-destino">
+            <div class="linha-idioma">
+                <label for="idioma">Traduzir para</label>
+                <select id="idioma" class="idioma">
+                    <option value="en">Inglês</option>
+                    <option value="es">Espanhol</option>
+                    <option value="fr">Francês</option>
+                    <option value="de">Alemão</option>
+                    <option value="it">Italiano</option>
+                    <option value="ja">Japonês</option>
+                    <option value="ko">Coreano</option>
+                    <option value="zh-CN">Chinês</option>
+                    <option value="ru">Russo</option>
+                    <option value="ar">Árabe</option>
+                    <option value="hi">Hindi</option>
+                    <option value="tr">Turco</option>
+                    <option value="nl">Holandês</option>
+                    <option value="sv">Sueco</option>
+                    <option value="pl">Polonês</option>
+                    <option value="el">Grego</option>
+                    <option value="he">Hebraico</option>
+                    <option value="th">Tailandês</option>
+                    <option value="vi">Vietnamita</option>
+                    <option value="id">Indonésio</option>
+                    <option value="pt-BR">Português</option>
+                </select>
+            </div>
+
+            <div class="resultado">
+                <h3 class="titulo-traducao">Tradução</h3>
+                <p class="traducao">A tradução aparecerá aqui...</p>
+            </div>
+        </section>
 
         <div class="controle">
-            <select class="idioma">
-                <option value="en">Ingles</option>
-                <option value="es">Espanhol</option>
-                <option value="fr">Frances</option>
-                <option value="de">Alemao</option>
-                <option value="it">Italiano</option>
-                <option value="ja">Japones</option>
-                <option value="ko">Coreano</option>
-                <option value="zh-CN">Chines</option>
-                <option value="ru">Russo</option>
-                <option value="ar">Arabe</option>
-                <option value="hi">Hindi</option>
-                <option value="tr">Turco</option>
-                <option value="nl">Holandes</option>
-                <option value="sv">Sueco</option>
-                <option value="pl">Polones</option>
-                <option value="el">Grego</option>
-                <option value="he">Hebraico</option>
-                <option value="th">Tailandes</option>
-                <option value="vi">Vietnamita</option>
-                <option value="id">Indonesio</option>
-            </select>
-
-            <button type="button" onclick="traduzir()">
-                <img src="img/traduzir.svg" alt="Traduzir">
+            <button class="botao-voz" type="button" title="Ditar texto no idioma de origem" aria-label="Ditar texto no idioma de origem" onclick="ouvirVoz()">
+                <img src="img/microfone.svg" alt="">
             </button>
 
-            <button type="button" onclick="ouvirVoz()">
-                <img src="img/microfone.svg" alt="Falar">
-            </button>
-        </div>
+            <button class="botao-pdf" type="button" hidden>Salvar PDF</button>
+            <button class="botao-baixar" type="button" hidden>Baixar .txt</button>
 
-        <div class="resultado">
-            <h3 class="titulo-traducao">Traducao</h3>
-            <p class="traducao">A traducao aparecera aqui...</p>
+            <button class="botao-traduzir" type="button" title="Traduzir texto" onclick="traduzir()">
+                <img src="img/traduzir.svg" alt="">
+                <span>Traduzir</span>
+            </button>
         </div>
     </main>
 
@@ -64,6 +121,7 @@
         <p>© 2026 Meu Site - Todos os direitos reservados</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="scripts.js"></script>
 </body>
 
